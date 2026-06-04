@@ -10,3 +10,7 @@
 | R06, R10, R14 | Imagine both fists vs both feet | ([Kaggle][1]) |
 
 [1]: https://www.kaggle.com/datasets/gamalasran/physionet-eeg-motor-movement-imagery/data?utm_source=chatgpt.com "PhysioNet EEG Motor Movement / Imagery"
+
+Current status:
+Implemented seperate functions within Preprocessing.py inorder to load and preprocess individual trial data samples with load_and_preprocess(), 
+and then subsequently use that helper function to accumulate an accumulation of all relevant epochs associated with relevant eventl labels, with build_dataset(). 
