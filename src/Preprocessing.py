@@ -68,7 +68,11 @@ def build_dataset():
 
             all_X.append(X)
             all_y.append(y)
-
+    
+    #standardizes segmentation of epochs, ensuring every epoch truncates to the shortest length
+    min_timepoints = min(x.shape[2] for x in all_X)
+    all_X = [x[:, :, :min_timepoints] for x in all_X]
+            
     X = np.concatenate(all_X, axis=0)
     y = np.concatenate(all_y, axis=0)
 
