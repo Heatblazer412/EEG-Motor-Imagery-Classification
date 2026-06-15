@@ -12,12 +12,8 @@
 [1]: https://www.kaggle.com/datasets/gamalasran/physionet-eeg-motor-movement-imagery/data?utm_source=chatgpt.com "PhysioNet EEG Motor Movement / Imagery"
 
 Current status:
-Finished Preprocessing.py implementation to serve the functionality of the now finished baseline_model.py. 
-Documentation of baseline model effectiveness: 
-    Model immediately prioritizes memorization over understanding after just a couple passes 
-    Random chance baseline for 3 classes: 33.33%
-    At 1 pass a typical result will indicate a training accuracy of 54.84% & a test accuracy of 43.90%
-    At roughly 3-4 passes, we yield our optimal model resulting in, Training accuracy: 64.71%, Test accuracy: 44.97%
-    From there on, training accuracy goes up and and testing accuracy goes down
-    This overall performance indicates that a more complicated model is necessary to achieve better results, 
-    though a testing accuracy of ~45% is not insignificant, demonstrating real success in interpreting the data.
+#Training progress:
+    #With a dropout rate of .1 and a single convolutional layer, this CNN achieves a peak
+    #testing accuracy of roughly 61%. To achieve a higher testing accuracy we need 
+    #to build more convolutional layers as to better identify relevant information for the
+    #model to work with.
