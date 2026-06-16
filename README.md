@@ -10,7 +10,6 @@
 | R06, R10, R14 | Imagine both fists vs both feet | ([Kaggle][1]) |
 
 [1]: https://www.kaggle.com/datasets/gamalasran/physionet-eeg-motor-movement-imagery/data?utm_source=chatgpt.com "PhysioNet EEG Motor Movement / Imagery"
-# EEG Motor Imagery Classification
 
 ## Goal of the Project
 
