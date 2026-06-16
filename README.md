@@ -10,60 +10,86 @@
 | R06, R10, R14 | Imagine both fists vs both feet | ([Kaggle][1]) |
 
 [1]: https://www.kaggle.com/datasets/gamalasran/physionet-eeg-motor-movement-imagery/data?utm_source=chatgpt.com "PhysioNet EEG Motor Movement / Imagery"
-Goal of project: Implement a neural network that can accurately examine an EEG motor imagery graph and correctly relate segmented epochs to their associated event labels
-Documentation of progress: 
-    - Began development with an initial MLP model:
-            - This model yielded a maximum accuracy of 42%, which indicated a learnable signal as random chance yields 33%
-            - Despite this, the model suffered from severe over-fitting, as training accuracy would quickly reach 100% despite the weak testing accuracy
-    - Continued development with a more sophisticated aaproach, using a Convolutional Neural Network (CNN):
-            - One convolutional layer immediately yielded a superior maximum testing accuracy of ~61%
-            - Two convolutional layers yielded an even greater accuracy of 64.5%
-            - This double layer CNN achieves this result with the following configuration:
-                    Architecture:
-                        - Conv2D(1 -> 32), kernel=(64,10)
-                        - Batch Normalization
-                        - Max Pooling
-                        - Conv2D(32 -> 64), kernel=(1,10)
-                        - Batch Normalization
-                        - Max Pooling
-                        - Dropout (0.3)
-                        - Fully Connected Output Layer
-                    Training Configuration:
-                        - Optimizer: Adam
-                        - Learning Rate: 0.0001
-                        - Batch Size: 35
-                        - Passes: 50
-            - A diagnostic of this model reveals:
-                    Best Test Accuracy: 64.5%
-                    Classification Report:
-                        -Class 0:
-                            -Precision: 0.67
-                            -Recall: 0.77
-                            -F1: 0.72
-                        -Class 1:
-                            -Precision: 0.60
-                            -Recall: 0.47
-                            -F1: 0.53
-                        -Class 2:
-                            -Precision: 0.54
-                            -Recall: 0.50
-                            -F1: 0.52
-                    Interpretation:
-                        - The CNN substantially outperformed the initial MLP baseline,
-                        which barely achiveved a ~40% test accuracy due to severe overfitting.
-                        - The model identifies resting-state EEG (Class 0) more reliably
-                        than motor imagery classes (Classes 1 and 2).
-                        - Confusion matrix analysis indicates that the dominant source
-                        of error is the misclassification of motor imagery epochs as
-                        resting-state epochs.
-                        - This suggests the network has learned to distinguish rest from
-                        motor imagery, but still struggles to consistently identify
-                        which motor imagery task is being performed.
-    - To be done:
-            - Deeper CNN architectures 
-            - Accuracy and loss visualizations
-            - Parameter tuning
-            - Additional EEG feature extraction
+# EEG Motor Imagery Classification
+
+## Goal of the Project
+
+Implement a neural network capable of analyzing EEG motor imagery recordings and correctly associating segmented EEG epochs with their corresponding event labels.
+
+---
+
+## Documentation of Progress
+
+### Initial Baseline: Multi-Layer Perceptron (MLP)
+
+* Began development with a simple MLP architecture.
+* Achieved a maximum testing accuracy of approximately **42%**.
+* Since random chance performance for a three-class problem is roughly **33%**, this indicated the presence of a learnable signal within the EEG data.
+* However, the model suffered from severe overfitting:
+
+  * Training accuracy rapidly approached **100%**.
+  * Testing accuracy remained relatively low.
+
+### Convolutional Neural Network (CNN)
+
+To better preserve the spatial and temporal structure of EEG data, development continued with a Convolutional Neural Network (CNN).
+
+#### Performance Improvements
+
+* A single convolutional layer increased maximum testing accuracy to approximately **61%**.
+* Expanding the architecture to two convolutional layers further improved performance to approximately **64.5%**.
+
+#### Architecture
+
+* Conv2D(1 → 32), kernel=(64,10)
+* Batch Normalization
+* Max Pooling
+* Conv2D(32 → 64), kernel=(1,10)
+* Batch Normalization
+* Max Pooling
+* Dropout (0.3)
+* Fully Connected Output Layer
+
+#### Training Configuration
+
+* Optimizer: Adam
+* Learning Rate: 0.0001
+* Batch Size: 35
+* Passes: 50
+
+---
+
+## Model Diagnostics
+
+### Best Test Accuracy
+
+**64.5%**
+
+### Classification Report
+
+| Class | Precision | Recall | F1-Score |
+| ----- | --------- | ------ | -------- |
+| 0     | 0.67      | 0.77   | 0.72     |
+| 1     | 0.60      | 0.47   | 0.53     |
+| 2     | 0.54      | 0.50   | 0.52     |
+
+### Interpretation
+
+* The CNN substantially outperformed the initial MLP baseline.
+* The model identifies resting-state EEG activity (**Class 0**) more reliably than motor imagery tasks (**Classes 1 and 2**).
+* Confusion matrix analysis indicates that the dominant source of error is the misclassification of motor imagery epochs as resting-state epochs.
+* These results suggest that the network has successfully learned to distinguish resting-state activity from motor imagery activity.
+* However, the model still struggles to consistently differentiate between the two motor imagery tasks.
+
+---
+
+## Future Work
+
+* Develop deeper CNN architectures.
+* Add training accuracy and loss visualizations.
+* Perform hyperparameter tuning.
+* Investigate additional EEG feature extraction techniques.
+* Explore alternative architectures for improved motor imagery discrimination.
 
             
 
