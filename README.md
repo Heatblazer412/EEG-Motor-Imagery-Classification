@@ -60,25 +60,21 @@ To better preserve the spatial and temporal structure of EEG data, development c
 
 ## Model Diagnostics
 
-### Best Test Accuracy
+### Model Progression
 
-**64.5%**
+| Task                             | Runs          | Test Accuracy  |               |
+| -------------------------------- | ------------- | -------------- | ------------- |
+| Imagined left vs right fist      | R04, R08, R12 | 64.5%          |               |
+| Executed left vs right fist      | R03, R07, R11 | 69.2%          |               |
+| Executed both fists vs both feet | R05, R09, R13 | 68.3%          |               |
+| Imagined both fists vs both feet | R06, R10, R14 | 56.4%          |               |
 
-### Classification Report
+### Architecture Iteration 
+| Changes Tested                   | Result        | Interpretation |               |
+|--------------------------------- | ------------- | -------------- | ------------- |
+| Kernel size (1,10) → (64,10)     | Initially observed improvement from 52.59% accuracy to 60.42% |  This change offered the largest single improvement as shifting the kernel size expanded the model's view from 1 channel to all 64 simultaneously per time window | |
+|
 
-| Class | Precision | Recall | F1-Score |
-| ----- | --------- | ------ | -------- |
-| 0     | 0.67      | 0.77   | 0.72     |
-| 1     | 0.60      | 0.47   | 0.53     |
-| 2     | 0.54      | 0.50   | 0.52     |
-
-### Interpretation
-
-* The CNN substantially outperformed the initial MLP baseline.
-* The model identifies resting-state EEG activity (**Class 0**) more reliably than motor imagery tasks (**Classes 1 and 2**).
-* Confusion matrix analysis indicates that the dominant source of error is the misclassification of motor imagery epochs as resting-state epochs.
-* These results suggest that the network has successfully learned to distinguish resting-state activity from motor imagery activity.
-* However, the model still struggles to consistently differentiate between the two motor imagery tasks.
 
 ---
 
