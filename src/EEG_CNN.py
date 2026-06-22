@@ -4,20 +4,24 @@ Created on Sun Jun 14 16:16:21 2026
 
 @author: ninuy
 """
-
+import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from Preprocessing import build_dataset
+from Preprocessing import DATA_PATH
+from Preprocessing import VALID_RUNS
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
+from sklearn.utils.class_weight import compute_class_weight
+
 
 #This step fetches the data from the preproceesing component 
-X, y = build_dataset()
+X = np.load(os.path.join(DATA_PATH, "X.npy"))
+y = np.load(os.path.join(DATA_PATH, "y.npy"))
 
 #Initializes X and y to seperate testing and training variables
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
@@ -63,7 +67,7 @@ class EEG_CNN(nn.Module):
         #This is the dummy pass for the second layer
         flattened_size = dummy.view(1, -1).shape[1]
         #This flattens the size so that it may pass through the linear network
-        self.dropout = nn.Dropout(p=0.3)
+        self.dropout = nn.Dropout(p=0.5)
         #The dropout rate is adjusted to minimize memorization (over-fitting)
         self.fc1 = nn.Linear(flattened_size, 3) 
         #This defines the dimensionality the flattened data will be configured to
@@ -88,25 +92,14 @@ dataset = TensorDataset(x_train, y_train_tensor)
 train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
 model = EEG_CNN() # this initializes the CNN object
-optimizer = torch.optim.Adam(model.parameters(), lr=0.0001) #this automatically finds all learnable weights in the network: conv filters, linear weights, biases 
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01) #this automatically finds all learnable weights in the network: conv filters, linear weights, biases 
 
-#Training progress:
-       # With a dropout rate of 0.3, learning rate of 0.0001, 50 passes,
-       # and two convolutional layers, this CNN typically achieves a peak
-       # testing accuracy of approximately 64%.
-   # Final model evaluation:
-       # Our results indicate that the network identifies class 0 (rest)
-       # significantly more reliably than classes 1 and 2 (motor imagery),
-       # suggesting that distinguishing motor imagery from rest is easier
-       # than distinguishing between the two motor imagery tasks.
-       # Analysis of the confusion matrix shows that the dominant source
-       # of error is the misclassification of classes 1 and 2 as class 0.
-       # The network is therefore better at detecting rest than reliably
-       # identifying motor imagery activity.
+#We define our training function
 def Training():
-    train_accuracies = [] 
-    test_accuracies = []
-    best_accuracy = 0
+    train_accuracies = []  #This tracks our training accuracies
+    test_accuracies = []   #This tracks our testing accuracies
+    best_accuracy = 0      #This tracks our best test accuracy
+    print(VALID_RUNS)      #This prints the last saved Valid Run input for Preprocessing.py
 
     for p in range(passes):
         for x_batch, y_batch in train_loader:
