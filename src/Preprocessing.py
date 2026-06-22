@@ -11,7 +11,7 @@ import numpy as np
 
 
 DATA_PATH = r"C:\Users\ninuy\Downloads\EEG-Motor-Imagery-Classification\Data"
-VALID_RUNS = ["R04", "R08", "R12"]
+VALID_RUNS = ["R05", "R09", "R13"]
 
 file_path = os.path.join(DATA_PATH, "S001", "S001R04.edf")
 
@@ -27,9 +27,9 @@ def load_and_preprocess(file_path):
         filtered,
         events,
         event_id=event_dict,
-        tmin=0,
+        tmin=-0.5,
         tmax=2,
-        baseline=None,
+        baseline=(-0.5, 0),
         preload=True
     )
 
@@ -68,14 +68,10 @@ def build_dataset():
 
             all_X.append(X)
             all_y.append(y)
-    
     #standardizes segmentation of epochs, ensuring every epoch truncates to the shortest length
     min_timepoints = min(x.shape[2] for x in all_X)
     all_X = [x[:, :, :min_timepoints] for x in all_X]
-            
     X = np.concatenate(all_X, axis=0)
     y = np.concatenate(all_y, axis=0)
 
     return X, y
-
-build_dataset()
