@@ -73,7 +73,13 @@ To better preserve the spatial and temporal structure of EEG data, development c
 | Changes Tested                   | Result        | Interpretation |               |
 |--------------------------------- | ------------- | -------------- | ------------- |
 | Kernel size (1,10) → (64,10)     | Initially observed improvement from 52.59% accuracy to 60.42% |  This change offered the largest single improvement as shifting the kernel size expanded the model's view from 1 channel to all 64 simultaneously per time window | |
-|
+| Dropout (p=0.5 → 0.25 → 0.1)     | Stabilized noisy test accuracy, peak ~61% | Reduced the vairance in test accuracy results, despite maintaining the same peak. Also regulated the divergence in training accuracy and testing accuracy as the model learned |
+| Doubling filter count (32→64, 64→128) | ~64.58% (no improvement) | Ruled out width as the bottleneck. Wider network reached similar accuracy but required more passes and had a worse train/test gap (94% train vs 65% test), indicating pure overfitting with no real gain. | |
+| Weight decay (L2, 1e-4)          | ~63.82% (no improvement) | Ruled out additional regularization as the crux | |
+| 3rd conv layer                   | ~57.6% (worse)| Ruled out depth (at this scale). Results indicated increased capacity to memorize (94.89% train) without improving generalization (57.62% test). With ~9,000 total epochs, a 3-layer CNN likely needs more data to justify the added complexity. | |
+| Removing 8-30 Hz bandpass filter | 64.33% (no meaningful change) |The model learns despite a filtered range, indicating that filtering neither supresses nor highlights any useful information for the model. | |
+| Class-weighted loss (for imbalance) | 61.89% (worse) | Class imbalance (45/23/22 split in early single-subject testing) wasn't severe enough to justify the precision/recall trade-off. | |
+
 
 
 ---
