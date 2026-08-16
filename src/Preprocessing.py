@@ -75,3 +75,6 @@ def build_dataset():
     y = np.concatenate(all_y, axis=0)
 
     return X, y
+
+build_dataset()
+
