@@ -4,6 +4,7 @@ Created on Sun Jun 14 16:16:21 2026
 
 @author: ninuy
 """
+#PRE-CSP RAW CNN FILE
 import os
 import torch
 import torch.nn as nn
