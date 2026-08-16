@@ -61,7 +61,7 @@ b2 = torch.zeros(output_size, requires_grad = True)
 
 #These are the paramaters and configurations for training the model:
 learning_rate = 0.01
-passes = 10
+passes = 50
 batch_size = 35
 dataset = TensorDataset(x_train, y_train_tensor)
 train_loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
@@ -91,6 +91,7 @@ def Training (W1=W1, b1=b1, W2=W2, b2=b2):
                 b1 -= learning_rate * b1.grad
                 W2 -= learning_rate * W2.grad
                 b2 -= learning_rate * b2.grad
+                
             #This resets gradients for the next pass
             W1.grad = None
             b1.grad = None
@@ -124,6 +125,8 @@ def Training (W1=W1, b1=b1, W2=W2, b2=b2):
     plt.ylabel('Accuracy %')
     plt.legend()
     plt.show()
+
+Training()
 
 Training()
             
