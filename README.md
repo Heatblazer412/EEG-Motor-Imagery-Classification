@@ -10,7 +10,7 @@ The EEG data used in this project is publicly available through PhysioNet:
 
 ## Research Report
 
-[Final Research Report](https://iowa-my.sharepoint.com/:w:/r/personal/astojkovski_uiowa_edu/Documents/EEG%20Research%20Report.docx?d=w51a31510fcc84fa7aba9c3d195961be6&csf=1&web=1&e=ZeSuem)
+[Final Research Report](./EEG%20Research%20Report.pdf)
 
 ## Models
 
