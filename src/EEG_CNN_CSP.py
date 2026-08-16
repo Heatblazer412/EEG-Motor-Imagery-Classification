@@ -137,8 +137,12 @@ raw_model_path = os.path.join(
 
 from mne.decoding import CSP
 if (CSP_RUN):
-    csp = CSP(n_components=20, reg=None, log=True, norm_trace=False)
-
+    csp = CSP(
+            n_components=20,
+            reg='ledoit_wolf',
+            log=True,
+            norm_trace=False
+            )
     #This filters epochs to only left vs right (exclude rest)
     mask = (y == 1) | (y == 2)
     X_motor = X[mask]
@@ -224,6 +228,7 @@ if (CSP_RUN):
     print(np.unique(y))
     print(np.unique(y_train))
     print(np.unique(y_train_csp))
+    
 #We define our training function
 def Training(
     model,
